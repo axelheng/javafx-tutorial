@@ -13,8 +13,27 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    String javaFxVersion = '17.0.7'
+    String osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+    String javaFxPlatform = osName.contains('mac') ? 'mac'
+            : osName.contains('win') ? 'win'
+            : osName.contains('linux') ? 'linux'
+            : null
+
+    if (javaFxPlatform == null) {
+        throw new GradleException("Unsupported operating system: ${osName}")
+    }
+
+    implementation("org.openjfx:javafx-base:${javaFxVersion}:${javaFxPlatform}")
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:${javaFxPlatform}")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:${javaFxPlatform}")
+    implementation("org.openjfx:javafx-graphics:${javaFxVersion}:${javaFxPlatform}")
+}
+
 application {
-    mainClass.set("Duke")
+    mainClass.set("Launcher")
+    applicationDefaultJvmArgs = ['--enable-native-access=ALL-UNNAMED']
 }
 
 java {
