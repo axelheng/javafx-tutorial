@@ -16,6 +16,7 @@ public class Main extends Application {
     private Button sendButton;
     private Image userImage;
     private Image dukeImage;
+    private Duke duke = new Duke();
 
     @Override
     public void start(Stage stage) {
@@ -28,7 +29,6 @@ public class Main extends Application {
 
         userInput = new TextField();
         sendButton = new Button("Send");
-        dialogContainer.getChildren().add(new DialogBox("Hello!", userImage));
 
         AnchorPane mainLayout = new AnchorPane();
         mainLayout.getChildren().addAll(scrollPane, userInput, sendButton);
@@ -57,6 +57,24 @@ public class Main extends Application {
         AnchorPane.setLeftAnchor(userInput, 1.0);
         AnchorPane.setBottomAnchor(userInput, 1.0);
 
+        sendButton.setOnMouseClicked((event) -> handleUserInput());
+        userInput.setOnAction((event) -> handleUserInput());
+        dialogContainer.heightProperty().addListener((observable) -> scrollPane.setVvalue(1.0));
+
         stage.show();
+    }
+
+    /**
+     * Creates dialog boxes for the user's input and Duke's response, then
+     * clears the input field.
+     */
+    private void handleUserInput() {
+        String userText = userInput.getText();
+        String dukeText = duke.getResponse(userText);
+        dialogContainer.getChildren().addAll(
+                DialogBox.getUserDialog(userText, userImage),
+                DialogBox.getDukeDialog(dukeText, dukeImage)
+        );
+        userInput.clear();
     }
 }
