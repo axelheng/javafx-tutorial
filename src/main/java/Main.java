@@ -17,7 +17,8 @@ public class Main extends Application {
             loader.<MainWindow>getController().setDuke(duke);
             stage.setScene(new Scene(root));
             stage.setTitle("Duke");
-            stage.setResizable(false);
+            stage.setMinHeight(220);
+            stage.setMinWidth(417);
             stage.show();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load MainWindow.fxml", e);
